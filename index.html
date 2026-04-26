@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>OPERAÇÃO_PORTFÓLIO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#e9c400",
+                        "background": "#131313",
+                        "surface-container-lowest": "#0e0e0e",
+                        "secondary-fixed": "#ffe16d",
+                        "surface": "#131313",
+                        "inverse-primary": "#954a00",
+                        "on-tertiary": "#2f3131",
+                        "surface-container-low": "#1c1b1b",
+                        "error": "#ffb4ab",
+                        "on-background": "#e5e2e1",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#544600",
+                        "surface-container-high": "#2a2a2a",
+                        "outline": "#a48c7d",
+                        "surface-bright": "#393939",
+                        "on-primary-fixed-variant": "#713700",
+                        "surface-dim": "#131313",
+                        "on-error": "#690005",
+                        "tertiary": "#c6c6c7",
+                        "on-surface-variant": "#ddc1b1",
+                        "outline-variant": "#564336",
+                        "surface-container": "#20201f",
+                        "surface-tint": "#ffb785",
+                        "inverse-on-surface": "#313030",
+                        "on-tertiary-container": "#343637",
+                        "on-secondary-fixed": "#221b00",
+                        "surface-container-highest": "#353535",
+                        "error-container": "#93000a",
+                        "surface-variant": "#353535",
+                        "primary-fixed-dim": "#ffb785",
+                        "on-primary-container": "#582900",
+                        "on-primary-fixed": "#301400",
+                        "secondary-container": "#ffdb3c",
+                        "primary": "#ffb785",
+                        "secondary": "#fff9ef",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary-container": "#725f00",
+                        "primary-container": "#f08121",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-secondary": "#3a3000",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "tertiary-container": "#9e9f9f",
+                        "primary-fixed": "#ffdcc6",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-surface": "#e5e2e1",
+                        "on-primary": "#502500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "unit": "4px",
+                        "margin": "24px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Grotesk"],
+                        "code-label": ["Inter"],
+                        "headline-md": ["Space Grotesk"],
+                        "headline-lg": ["Space Grotesk"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.5", "fontWeight": "500"}],
+                        "code-label": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.4", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .scanline-overlay {
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1));
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .beveled-button {
+            border-top: 2px solid theme('colors.primary');
+            border-left: 2px solid theme('colors.primary');
+            border-bottom: 2px solid theme('colors.on-primary');
+            border-right: 2px solid theme('colors.on-primary');
+        }
+        .beveled-button:active {
+            border-top: 2px solid theme('colors.on-primary');
+            border-left: 2px solid theme('colors.on-primary');
+            border-bottom: 2px solid theme('colors.primary');
+            border-right: 2px solid theme('colors.primary');
+        }
+        .beveled-panel {
+            border-top: 2px solid theme('colors.surface-container-highest');
+            border-left: 2px solid theme('colors.surface-container-highest');
+            border-bottom: 2px solid theme('colors.surface-container-lowest');
+            border-right: 2px solid theme('colors.surface-container-lowest');
+        }
+        .beveled-input {
+            border-top: 2px solid theme('colors.surface-container-lowest');
+            border-left: 2px solid theme('colors.surface-container-lowest');
+            border-bottom: 2px solid theme('colors.surface-container-highest');
+            border-right: 2px solid theme('colors.surface-container-highest');
+        }
+        .blinking-cursor::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+            color: theme('colors.primary');
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      // Substitua pela sua Public Key (aba Account do EmailJS)
+      emailjs.init("jxEf6pi9NEVHsZypc");
+    })();
+  </script>
+  </head>
+<body class="bg-background text-on-background min-h-screen relative overflow-x-hidden">
+<div class="fixed inset-0 scanline-overlay z-50"></div>
+<!-- TopAppBar -->
+<header class="sticky top-0 z-40 w-full border-b-4 border-orange-600 bg-opacity-95 backdrop-blur-sm shadow-[0px_4px_0px_0px_rgba(0,0,0,0.3)] bg-zinc-950 dark:bg-black font-['Space_Grotesk'] font-bold uppercase tracking-tighter text-sm flex justify-between items-center px-4 h-16 md:px-12">
+<div class="flex items-center gap-4">
+<button id="menu-toggle" aria-controls="mobile-menu" aria-expanded="false" class="md:hidden text-orange-600 dark:text-orange-500 hover:text-orange-500 transition-colors duration-75 active:translate-y-0.5 active:shadow-none" type="button">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<span class="text-2xl font-black text-orange-600 dark:text-orange-500 italic tracking-widest hidden md:block">SYSTEM_Portfólio_V1.0</span>
+</div>
+<nav class="hidden md:flex gap-2">
+<a class="text-black bg-orange-600 px-2 py-1 border-2 border-black hover:bg-orange-600 hover:text-zinc-950 transition-colors duration-75 active:translate-y-0.5 active:shadow-none" href="#inicio">INÍCIO</a>
+<a class="text-zinc-400 hover:text-orange-500 px-2 py-1 hover:bg-orange-600 hover:text-zinc-950 transition-colors duration-75 active:translate-y-0.5 active:shadow-none" href="#sobre">SOBRE MIM</a>
+<a class="text-zinc-400 hover:text-orange-500 px-2 py-1 hover:bg-orange-600 hover:text-zinc-950 transition-colors duration-75 active:translate-y-0.5 active:shadow-none" href="#projetos">PROJETOS</a>
+</nav>
+<button class="text-orange-600 dark:text-orange-500 hover:text-orange-500 transition-colors duration-75 active:translate-y-0.5 active:shadow-none">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+</button>
+</header>
+<div id="mobile-menu-overlay" class="fixed inset-0 z-[90] hidden bg-black/60 backdrop-blur-sm md:hidden"></div>
+<!-- NavigationDrawer (Mobile) -->
+<aside id="mobile-menu" aria-hidden="true" class="fixed left-0 top-0 h-full w-80 z-[100] flex flex-col bg-zinc-900 dark:bg-zinc-950 border-r-4 border-orange-600 shadow-2xl font-['Space_Grotesk'] font-bold uppercase transform -translate-x-full transition-transform duration-300 md:hidden">
+<div class="p-4 border-b-2 border-zinc-800">
+<div class="text-xl font-black text-white bg-orange-600 p-2 mb-4">NAVEGAÇÃO_SISTEMA</div>
+</div>
+<nav class="flex-1 overflow-y-auto">
+<a class="bg-orange-600 text-black flex items-center gap-4 p-4 border-y-2 border-black cursor-pointer" href="#inicio">
+<span class="material-symbols-outlined">terminal</span> INÍCIO
+            </a>
+<a class="text-zinc-400 flex items-center gap-4 p-4 hover:bg-zinc-800 hover:text-white hover:pl-6 transition-all duration-200 cursor-pointer" href="#sobre">
+<span class="material-symbols-outlined">person_search</span> SOBRE MIM
+            </a>
+<a class="text-zinc-400 flex items-center gap-4 p-4 hover:bg-zinc-800 hover:text-white hover:pl-6 transition-all duration-200 cursor-pointer" href="#projetos">
+<span class="material-symbols-outlined">analytics</span> PROJETOS
+            </a>
+</nav>
+</aside>
+<main class="max-w-container-max mx-auto px-margin py-12 flex flex-col gap-24">
+<!-- Hero Section -->
+<section class="flex flex-col md:flex-row gap-gutter items-stretch" id="inicio">
+<div class="flex-1 bg-surface-container border-2 border-outline-variant p-8 relative overflow-hidden beveled-panel">
+<div class="absolute top-2 right-2 flex gap-2">
+<span class="bg-primary text-on-primary font-code-label text-code-label px-2 py-1">SYS_ONLINE</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed font-code-label text-code-label px-2 py-1 blink">REC</span>
+</div>
+<div class="mt-8">
+<h1 class="font-headline-lg text-headline-lg text-primary uppercase mb-4">INICIALIZANDO_<br/>OPERAÇÃO</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 blinking-cursor">
+                        &gt; Desenvolvedor de Sistemas .<br/>
+                        &gt; Sistemas robustos.<br/>
+                        &gt; Aguardando comandos...
+                    </p>
+<div class="flex gap-4">
+<button class="bg-surface-container-low text-primary font-code-label text-code-label uppercase px-6 py-3 beveled-button hover:bg-primary hover:text-on-primary transition-colors">
+                            INICIAR_DIAGNÓSTICO
+                        </button>
+</div>
+</div>
+</div>
+<div class="w-full md:w-1/3 bg-surface-container-high border-2 border-outline-variant p-4 beveled-panel flex flex-col">
+<div class="border-b-2 border-outline-variant pb-2 mb-4 font-code-label text-code-label text-secondary-fixed">ESTATÍSTICAS_VITAIS</div>
+<div class="flex-1 bg-surface-container-lowest beveled-input p-4 relative">
+<img alt="Terminal screen code green" class="absolute inset-0 w-full h-full object-cover opacity-30 mix-blend-screen" data-alt="close up of glowing green code on a dark computer monitor with scanlines and digital artifacting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbCByK6e-ET--36sbvtQAYrYA3ettrMI5Uslmvy7N-8cCpsNjb9fXA8y4oFfTO8a0RPQeXFXhzrsJuTYfaRzQ9gSH2BUyvDMWMl2dezcj_j8WLqZHRJL2w1ts-9Za8-TtSLrsGRW9kWWfg6ONYqQP9T6JR88ANeyX6YaVVp6qH8kTy09ydENVvMQ4vI1dWhaami6yQ-QxC7-K3gsnBUGGwBTBEsfgaxgCSqir-IRXN7BjMbI-RCaxoEH9TWeJnsvD22fIvhjeIr7Q"/>
+<div class="relative z-10 flex flex-col gap-2 font-code-label text-code-label text-primary">
+<div class="flex justify-between border-b border-outline-variant border-opacity-30 pb-1"><span>UPTIME:</span> <span>99.9%</span></div>
+<div class="flex justify-between border-b border-outline-variant border-opacity-30 pb-1"><span>CARGA:</span> <span>OTIMIZADA</span></div>
+<div class="flex justify-between border-b border-outline-variant border-opacity-30 pb-1"><span>STATUS:</span> <span>ATIVO</span></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Sobre Mim Section -->
+<section class="flex flex-col gap-8" id="sobre">
+<h2 class="font-headline-md text-headline-md text-primary uppercase border-b-4 border-primary pb-2 inline-block self-start bg-surface-container px-4">SOBRE_MIM_</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="col-span-1 md:col-span-4 bg-surface-container border-2 border-outline-variant p-4 beveled-panel flex flex-col items-center">
+<img alt="Foto de perfil" class="w-full max-w-xs md:max-w-none aspect-[4/5] md:aspect-square object-cover object-center border-2 border-outline-variant grayscale contrast-150 hover:grayscale-0 transition-all duration-500" src="assets/image.png"/>
+<div class="mt-4 font-code-label text-code-label text-center bg-secondary-fixed text-on-secondary-fixed p-1">ID: OPERADOR_01</div>
+</div>
+<div class="col-span-1 md:col-span-8 bg-surface-container border-2 border-outline-variant p-6 beveled-panel flex flex-col gap-4">
+<p class="font-body-lg text-body-lg text-on-surface">
+                        Desenvolvedor focado na construção de interfaces utilitárias e sistemas de alta performance. Minha abordagem prioriza a clareza da informação, contraste agressivo e resiliência estrutural.
+                    </p>
+<div class="mt-auto border-t-2 border-outline-variant pt-4">
+<div class="font-code-label text-code-label text-tertiary mb-2">HABILIDADES_TÉCNICAS</div>
+<div class="flex flex-wrap gap-2">
+<span class="bg-surface-container-high text-primary border border-outline-variant px-2 py-1 font-code-label text-code-label">HTML/CSS</span>
+<span class="bg-surface-container-high text-primary border border-outline-variant px-2 py-1 font-code-label text-code-label">NODE.JS</span>
+<span class="bg-surface-container-high text-primary border border-outline-variant px-2 py-1 font-code-label text-code-label">JAVA</span>
+<span class="bg-surface-container-high text-primary border border-outline-variant px-2 py-1 font-code-label text-code-label">RUST</span>
+<span class="bg-surface-container-high text-primary border border-outline-variant px-2 py-1 font-code-label text-code-label">POSTGRESQL</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Projetos Section -->
+<section class="flex flex-col gap-8" id="projetos">
+<h2 class="font-headline-md text-headline-md text-primary uppercase border-b-4 border-primary pb-2 inline-block self-start bg-surface-container px-4">REGISTRO_DE_PROJETOS_</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Projeto 1 -->
+<div class="bg-surface-container border-2 border-outline-variant flex flex-col beveled-panel group">
+<div class="h-48 relative border-b-2 border-outline-variant overflow-hidden">
+<img alt="Circuit board" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity mix-blend-luminosity group-hover:mix-blend-normal" data-alt="macro shot of a complex green computer circuit board with metallic traces and microchips under harsh lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATgE-k2BpnNZT6wAx4o0ECkWzSi_Eo_r7ZAMpymaMZ2KJ_ZKWk-FobdSV55TI-1KYtoZbq9Qof7-ogSq4AIDJn8uzDOZypJWmpJkUylH6Iu5pwiSjy96hqj98IKkzuZ9vpDPZXY9L6KuiRs19lz0vwVCsdwbnd9eRI9WTaUkv1Fjozur79xcfBECFLfSz1-iaorpoNRp2WaIjLVMgDOydCDAn6yrUCNQozgAw73l18BUK5b6QlGKRs-mmbTRp5nh0oWfLvjksyeNI"/>
+<div class="absolute top-0 left-0 bg-primary text-on-primary font-code-label text-code-label px-2 py-1">PROJ_ALFA</div>
+</div>
+<div class="p-4 flex flex-col gap-2 flex-1">
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface uppercase">Sistema Bancario POO</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1">Sistema completo de gestão de contas aplicando padrão MVC, encapsulamento e persistência de dados..</p>
+<div class="flex justify-between items-center mt-4 border-t border-outline-variant pt-2">
+<span class="font-code-label text-code-label text-secondary-fixed">STATUS: CONCLUÍDO</span>
+<a href="https://github.com/luxuz24/sistema-bancario-poo" class="bg-surface-container-low text-primary font-code-label text-code-label px-3 py-1 beveled-button hover:bg-primary hover:text-on-primary inline-block">
+                                ABRIR_LOG
+                            </a>
+</div>
+</div>
+</div>
+<!-- Projeto 2 -->
+<div class="bg-surface-container border-2 border-outline-variant flex flex-col beveled-panel group">
+<div class="h-48 relative border-b-2 border-outline-variant overflow-hidden">
+<img alt="Matrix code" class="w-full h-full object-cover opacity-70 group-hover:opacity-100 transition-opacity mix-blend-luminosity group-hover:mix-blend-normal" data-alt="falling digital green code characters against a black background resembling the matrix aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwjINZbeyW-p_9j62uCefAEXN6qD0ECOdN_bWj_yNLqUFPWCywVp60b6rVoJBF2bOE_FCfIWG85dVA326eqUTzB0oSRLA2z6c7HbhL4gGwKbeklmtcKea3pmVCPUYZEdAAA2Z3UQiRpujtZ3W69uawBm45DeC5QmAXws2_MAUB-TMruaXnBiypE_Ap8na4XEIqlkmxNUUNjDY1GeTqmjkCnCuTgfK8W6Z9PGkezArTyfXfVIE64EiAU9zAj5uQFLMBeA5DGvC4rrw"/>
+<div class="absolute top-0 left-0 bg-secondary-fixed text-on-secondary-fixed font-code-label text-code-label px-2 py-1">PROJ_BETA</div>
+</div>
+<div class="p-4 flex flex-col gap-2 flex-1">
+<h3 class="font-body-lg text-body-lg font-bold text-on-surface uppercase">Analise de Dados IBGE</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant flex-1">Aplicação Desktop com JavaFX para visualização de dados demográficos. Utiliza PostgreSQL para consultas complexas e otimizadas..</p>
+<div class="flex justify-between items-center mt-4 border-t border-outline-variant pt-2">
+<span class="font-code-label text-code-label text-tertiary">STATUS: CONCLUÍDO</span>
+<a href="https://github.com/luxuz24/Analise_Dados_IBGE" class="bg-surface-container-low text-primary font-code-label text-code-label px-3 py-1 beveled-button hover:bg-primary hover:text-on-primary inline-block">
+                                ABRIR_LOG
+                            </a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Contact Module -->
+<section class="bg-surface-container-high border-4 border-primary p-8 beveled-panel relative overflow-hidden">
+<div class="absolute -right-10 -bottom-10 opacity-10">
+<span class="material-symbols-outlined text-[200px]" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-primary uppercase mb-6 relative z-10">INICIAR_CONEXÃO_</h2>
+<form id="contact-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
+    <div class="flex flex-col gap-1">
+        <label class="font-code-label text-code-label text-tertiary">IDENTIFICAÇÃO (NOME)</label>
+        <input name="user_name" required class="bg-surface-container-lowest text-primary font-code-label beveled-input focus:outline-none focus:border-primary p-2 w-full" placeholder="INPUT..." type="text"/>
+    </div>
+    
+    <div class="flex flex-col gap-1">
+        <label class="font-code-label text-code-label text-tertiary">CANAL_COM (EMAIL)</label>
+        <input name="user_email" required class="bg-surface-container-lowest text-primary font-code-label beveled-input focus:outline-none focus:border-primary p-2 w-full" placeholder="INPUT..." type="email"/>
+    </div>
+    
+    <div class="flex flex-col gap-1 md:col-span-2">
+        <label class="font-code-label text-code-label text-tertiary">DADOS_TRANSMISSÃO</label>
+        <textarea name="message" required class="bg-surface-container-lowest text-primary font-code-label beveled-input focus:outline-none focus:border-primary p-2 w-full" placeholder="INPUT..." rows="4"></textarea>
+    </div>
+    
+    <div class="md:col-span-2 flex justify-end mt-4">
+        <button type="submit" class="bg-primary text-on-primary font-headline-sm text-headline-sm font-bold uppercase px-8 py-3 beveled-button hover:bg-surface-container-low hover:text-primary transition-colors flex items-center gap-2">
+            <span class="material-symbols-outlined">send</span> 
+            <span id="btn-text">TRANSMITIR_DADOS</span>
+        </button>
+    </div>
+</form>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t-8 border-black mt-20 bg-orange-600 dark:bg-orange-700 text-black font-['Space_Grotesk'] font-black uppercase text-xs tracking-widest border-t-4 border-zinc-900 w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+<div>© 2024 OPERAÇÃO_PORTFÓLIO // TODOS OS DIREITOS RESERVADOS</div>
+<div class="flex gap-6">
+<a class="text-black/80 hover:text-white transition-none cursor-crosshair" href="https://github.com/luxuz24">GITHUB_REPO</a>
+<a class="text-black/80 hover:text-white transition-none cursor-crosshair" href="https://www.linkedin.com/in/lucas-cau%C3%A3-3856412ba/">LINKEDIN_CORE</a>
+<a class="text-black/80 hover:text-white transition-none cursor-crosshair" href="#">DOCS_V2</a>
+</div>
+</footer>
+<script>
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    const mobileMenuLinks = mobileMenu ? mobileMenu.querySelectorAll('a[href^="#"]') : [];
+
+    function openMenu() {
+        mobileMenu.classList.remove('-translate-x-full');
+        mobileMenuOverlay.classList.remove('hidden');
+        menuToggle.setAttribute('aria-expanded', 'true');
+        mobileMenu.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeMenu() {
+        mobileMenu.classList.add('-translate-x-full');
+        mobileMenuOverlay.classList.add('hidden');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+    }
+
+    menuToggle.addEventListener('click', function () {
+        const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+        if (isOpen) {
+            closeMenu();
+        } else {
+            openMenu();
+        }
+    });
+
+    mobileMenuOverlay.addEventListener('click', closeMenu);
+
+    mobileMenuLinks.forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            closeMenu();
+        }
+    });
+</script>
+
+<script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Impede a página de recarregar
+      
+      const btnText = document.getElementById('btn-text');
+      const originalText = btnText.innerText;
+      btnText.innerText = 'TRANSMITINDO...';
+
+      
+      emailjs.sendForm('service_jxu95mm', 'template_rka1tgo', this)
+        .then(function() {
+          btnText.innerText = 'CONEXÃO_ESTABELECIDA';
+          document.getElementById('contact-form').reset();
+          setTimeout(() => btnText.innerText = originalText, 3000);
+        }, function(error) {
+          console.log('Falha:', error);
+          btnText.innerText = 'ERRO_NA_TRANSMISSÃO';
+          setTimeout(() => btnText.innerText = originalText, 3000);
+        });
+    });
+  </script>
+
+
+</body></html>
